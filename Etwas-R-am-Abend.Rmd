@@ -3,6 +3,7 @@ title: "Etwas R am Abend"
 author: "Norman Markgraf"
 date: "21.11.2016"
 output:
+  slidy_presentation:
   ioslides_presentation: default
   beamer_presentation:
     fig_caption: no
