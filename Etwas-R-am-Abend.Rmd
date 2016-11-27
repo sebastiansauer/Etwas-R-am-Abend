@@ -1,0 +1,528 @@
+---
+title: "Etwas R am Abend"
+author: "Norman Markgraf"
+date: "21.11.2016"
+output:
+  ioslides_presentation: default
+  beamer_presentation:
+    fig_caption: no
+    highlight: tango
+    includes:
+      in_header: header-fom.tex
+    keep_tex: yes
+    pandoc_args:
+    - -V
+    - papersize=A4
+    - -V
+    - fontsize=10pt
+    - -V
+    - lang=de
+    - -V
+    - linkcolor=blue
+    - -V
+    - urlcolor=blue
+    - -V
+    - theme=FOM
+    - -V
+    - institute=Standort Köln
+institute: Standort Köln
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE,
+    background="#A7A7A7",
+#   fig.keep="none",
+    out.width="80%",
+#   cache = TRUE,
+#    tidy=TRUE,
+    fig.align = "center"
+)
+```
+
+## Was ist eigentlich R?
+
+**Programmiersprache S**:
+
+- Von Bell Labs für Statistik, Simulation, Grafik entwickelt (Becker and Chambers; 1984) 
+- kommerzielle Implementation: **S-PLUS** 
+    
+**Programmiersprache R**:
+
+- Implementation unter GPL (GNU General Public License), offener Quellcode
+    
+- **Vorteile:**
+    - interpretierter Programmcode, objektorientiert
+    - leicht erweiterbar durch eigene Routinen, Pakete, DLLs
+    - viele Grafikmöglichkeiten 
+    - standardisiertes, einfach handhabbares Datenformat (data.frame)
+    - gut durchdachtes Format zur Anpassung von (Regressions-)Modellen
+
+## Was ist eigentlich R?
+
+**Programmiersprache R**:
+
+- **Vorteile (Forts.):**
+    - aktive Entwicklergruppe, hilfreiche Mailingliste
+    - modularer Aufbau mit mehr als 8000 Erweiterungspaketen
+    - man kann ansprechende Diagramme und interaktive Apps entwickeln (z.B. [plotly](https://plot.ly/r/), [shiny](http://shiny.rstudio.com)).
+    - führende Plattform für statistische Analysen
+
+
+-  **Nachteile:**
+    - bisher keine echte “Standard”-GUI (aber es gibt ja RStudio)
+    - verfügbare Routinen/Pakete manchmal unübersichtlich
+
+## Wer nutzt R im echten Leben?
+
+Unternehmen, die „ernsthaft“ Daten analysieren, setzen häufig auf R.
+
+![Wer nutzt R](images/WerNutztR.png)
+
+**Quelle:** http://www.revolutionanalytics.com/companies-using-r 
+
+
+Falls Sie gerne **Werbevideos** ansehen, hier ein Link [https://www.youtube.com/watch?v=TR2bHSJ_eck](https://www.youtube.com/watch?v=TR2bHSJ_eck)
+  
+
+## Einfach nur R oder darf es etwas mehr sein?
+
+**R** ist ein eine *komandozeilenorientierte*-Sprache!
+
+```{r, echo = TRUE}
+1+1
+```
+
+```{r, echo = TRUE}
+1+2*3^4
+```
+
+```{r, echo = TRUE}
+x <- 1; y <- 2
+x+y
+```
+
+## Einfach nur R oder darf es etwas mehr sein?
+Die mit unter recht schnell schöne Ergebnisse produzieren kann:
+```{r, echo=TRUE}
+x <- seq(-pi,pi,by=0.1)
+plot(x, sin(x),  type="l", col="red",
+     main="Sinuskurve")
+```
+.
+
+## Einfach nur R oder darf es etwas mehr sein?
+
+Natürlich können Sie **R** als Programmiersprache direkt von der Konsole aus füttern.
+
+Besser ist es aber seine Skripte vorab mit Hilfe eines Texteditors zu schreiben und R dieses ausführen zu lassen.
+
+Noch besser ist die Nutzung von Integrierten Entwicklungsumgebenung (*IDE*), wie z.B.
+
+- [RStudio](https://www.rstudio.com)
+- [Rcmdr](http://www.rcommander.com) 
+- [StatET for R](http://www.walware.de/goto/statet)  
+    eine auf [Eclipse](http://www.eclipse.org/eclipse/) basierende IDE für R
+- [ESS](http://ess.r-project.org) 
+    ein add-on package für GNU Emacs und XEmacs
+
+## Was bekommt man wo und wie?
+
+**Empfehlung:**
+
+- **R** (3.3.2) , RStudio (0.99.903 oder neuer als 1.0.44) (vergessen Sie lieber den **R-Cmdr**)
+    - **R** finden Sie hier: https://cran.rstudio.com oder https://www.r-project.org
+    - Aktuell ist die Version 3.3.2
+    - **Achtung MAC-Nuzter!!!**: Sie benötigen zusätlich erst noch XQuartz. 
+        - XQuartz finden Sie hier: https://www.xquartz.org
+        
+- **RStudio** (Desktop-Version) (1.0.44, leider!)
+    - Die aktuelle Version finden Sie hier: https://www.rstudio.com/products/rstudio/download/
+    - **Besser** ist aber die alte Version 0.99.903 von hier: https://support.rstudio.com/hc/en-us/articles/206569407-Older-Versions-of-RStudio
+    - Oder, für mutige, die tagesaktuelle Entwicklerversion von hier: https://dailies.rstudio.com
+  
+## Die Installation
+
+- Die wichtigsten Schritte bei der Installation: 
+    - Abwarten und bestätigen ;-)
+
+## Die wichtigsten Pakete und wie man sie installiert
+
+Im Allgemeinen instaliert man ein Paket <blubber> durch den Befehl:
+```{r, eval=FALSE, echo=TRUE}
+install.packages("<blubber>", dependencies=TRUE)
+```
+
+Für einen guten Start sollte man folgende Pakete installieren:
+
+- **tidyverse**  
+    
+    **tidyverse** ist eine Sammlung von Paketen, die einem den Umgang mit **R** und *Grafik* erleichtern. 
+  
+    Das sind u.a. die Pakete:
+    
+    + [ggplot2](http://ggplot2.org)     # DAS Grafikpaket von *R*
+    + [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)       # Das Paket zur Daten manipulation
+    + [readr](https://blog.rstudio.org/2016/08/05/readr-1-0-0/)       # Das Paket zum Einlesen von Daten 
+    
+## Die wichtigsten Pakete und wie man sie installiert
+
+- **mosaic**
+    
+    Mehr Informationen zu **mosaic** finden Sie hier:
+    
+    + [Project MOSAIC](http://mosaic-web.org)
+    + [Less Volume, More Creativity – Getting Started with the mosaic Package](https://cran.r-project.org/web/packages/mosaic/vignettes/LessVolume-MoreCreativity.html)  
+
+- *Daten* zum Experimentieren und Spielen
+
+  Die Daten als Rundlage zu den Beispielen hier, finden Sie unter:
+
+  https://github.com/sebastiansauer/Daten_Unterricht 
+
+  Entzippen Sie den herunter geladenen Ordner; dort finden Sie die hier verwendeten Daten.
+  
+## Die wichtigsten Pakete und wie man diese installiert
+        
+Die ersten Befehle sollten wie folgt lauten:
+
+```{r, eval=FALSE, echo=TRUE}
+# Laden von tidyverse Paketen:
+install.packages("tidyverse", dependencies=TRUE) 
+# Laden des mosaic Pakets:
+install.packages("mosaic", dependencies=TRUE) 
+```
+
+Ach ja, mit '#' leitet man einen Kommentar ein. Sie müssen das also nicht mit den Kommentaren eintippen, es reicht:
+```{r, eval=FALSE, echo=TRUE}
+install.packages("tidyverse", dependencies=TRUE) 
+install.packages("mosaic", dependencies=TRUE) 
+```
+
+Bitte bestätigen Sie alle Anfragen und haben Sie etwas Gedult. Es wird eine Menge nachgeladen. Aber nur einmal. Also keine Sorge!
+
+## Die ersten Schritte
+
+**R** als Taschenrechner:
+
+Bemerkung            |Umsetzung in **R**
+-------------------- | --------------------
+Grundrechenarten     | + - * /
+Potenzieren          | ^
+logische Operatoren  | == != < > <= >=
+Funktionen           | $\cos()$ $\sin()$ $\tan()$ 
+                     | $\exp()$ $\sqrt()$
+Konstante            | $pi$
+Kommentare           | #
+Dezimalzeichen       | .
+
+
+## Die ersten Schritte
+
+```{r}
+# R beherscht Punkt vor Strichrechnung
+2 * 3 + 2 - 25/5 + 2^3
+```
+```{r}
+# Trigometrische Funktionen
+cos(pi/2)^2 + sin(pi/2)^2
+```
+```{r}
+# Logarithmen und Exponetialfunktion
+log(exp(3))
+```
+```{r}
+# Unendlich
+1/0
+```
+
+## Die ersten Schritte
+
+```{r}
+# Not a Number (keine Zahl)
+0/0
+```
+```{r}
+# Not Available; ein fehleder Wert
+NA
+```
+```{r}
+# Vektoren (combine)
+c(1, 4:8)
+```
+```{r}
+# Vektor/Liste ohne Inhalt
+c()
+```
+
+##  Variablen
+
+- Variablen in **R** können Skalare, Vektoren, Matrizen oder Objekte beliebiger anderer Klassen sein.
+- Man **erzeugt** eine Variable in dem man ihr mit Hilfe von "<-" oder "=" etwas **zuweist**.
+- **Variablennamen** können Kombinationen aus Buchstaben, Ziffern, Punkt und Unterstrich sein. Aber **keine Ziffern vorne**! 
+- **R** ist **case-sensetiv**, es unterscheidet zwischen Groß- und Kleinschreibung!
+
+```{r, eval=TRUE, echo=TRUE }
+a <- c("FOM", "und", "R", "sind", "SUPER")
+A <- 42
+a
+A
+```
+
+## Datentypen
+
+In **R** gibt es die Datentypen
+
+- **numeric** - ganzzahlige (*integer*) oder reelle (*double*) Zahlen
+- **character** - Zeichenketten
+- **logic** - die logischen Operatoren **TRUE** und **FALSE**
+- **list** - Liste von Objekten jeder Art (die wiederum Listen beinhalten können!)
+    
+Befehle zum überprüfen der Datentypen:
+
+```{r, eval=TRUE, echo=TRUE }
+mode(a)
+str(a)
+typeof(a)
+```
+
+
+## Vektoren
+
+Ein Vektor wird mit dem Befehl **c()** (für *combine*) erzeugt:
+
+```{r, eval=TRUE, echo=TRUE}
+a <- 5
+vektorMitBeliebigemNamen <- c(log(1), a, sqrt(16), 3^2)
+vektorMitBeliebigemNamen
+```
+
+R kann (Rechen-)Operationen auf ganzen Vektoren (elementweise) durchführen:
+
+```{r, eval=TRUE, echo=TRUE}
+vektorMitBeliebigemNamen * 2
+vektorMitBeliebigemNamen + 1
+```
+
+
+## Sequenzen
+
+Zahlensequenzen werden mit dem Befehl **seq()** erzeugt. Dem Befehl können verschiedene Argumente Übergeben werden:
+
+```{r, eval=TRUE, echo=TRUE}
+seq(from = 2, to = 9)
+seq(from = 2, to = 8, by=3)
+seq(from = 2, by = 0.5, length.out = 10)
+vektor <- 1:4 # 'n:m' entspricht seq(from=n, to=m, by=1)
+```
+
+## Sequenzen
+
+Werte können mit **rep()** wiederholt werden:
+```{r, eval=TRUE, echo=TRUE}
+rep("X", times = 5) # wiederholt 'X' 5-mal
+zahlen1 <- c(2, 4)
+zahlen1
+zahlen2 <- rep(zahlen1, times = 2)
+zahlen2
+rep(zahlen1, each = 2)
+```
+
+## Logische Abfragen
+
+```{r, eval=TRUE, echo=TRUE}
+people <- c("Klaus", "Max", "Jens", "Dieter")
+people
+people == "Max"
+vektorMitBeliebigemNamen != 0
+logischerVektor <- vektorMitBeliebigemNamen <= 3
+logischerVektor
+```
+
+## Eigenschaften von Vektoren
+
+**names(a)** gibt die Namen der Einträge des Vaktors $a$ zurück:
+
+```{r, eval=TRUE, echo=TRUE}
+weight <- c(67, 80, 72, 90)
+names(weight)
+
+names(weight) <- people
+weight
+```
+
+## Rechnen mit Vektoren
+
+- **Wichtige** Befehle für Vektoren sind $mean()$, $sd()$, $var()$, $min()$, $max()$, $length()$, $sum()$, $median()$, $IQR()$, $summary()$
+- **Zugriff** auf das i-te Element eines Vektors $a$ mit $a[i]$.
+
+```{r, eval=TRUE, echo=TRUE}
+aVec <- c(1, 2, 4, 9) 
+mean(aVec)
+sd(aVec)
+var(aVec)
+min(aVec)
+max(aVec)
+length(aVec)
+sum(aVec)
+median(aVec)
+```
+
+## Rechnen mit Vektoren
+
+```{r, eval=TRUE, echo=TRUE}
+length(aVec)
+sum(aVec)
+median(aVec)
+IQR(aVec)
+summary(aVec)
+```
+
+## Varianzen
+
+**R** berechnent die Varianz von Daten mit Hilfe der Formel
+$$\frac1{n-1} \cdot \sum (x-\bar{x})^2,$$ 
+wie man leicht nachrechnen kann:
+
+```{r, eval=TRUE, echo=TRUE}
+var(aVec)
+# Ist das selbe wie
+1/(length(aVec)-1) * sum( (aVec-mean(aVec))^2 )
+# Dagegen ist
+1/length(aVec) * sum( (aVec-mean(aVec))^2 )
+```
+
+## Standardabweichung 
+
+Die Standardabweichung ist die Quadratwurzel der Varianz:
+```{r, eval=TRUE, echo=TRUE}
+sd(aVec)
+sqrt(var(aVec))
+```
+
+## Varianz
+
+Will man die Varianz und die Standardabweichung mit Hilfe der Formel
+$$\frac1{n} \cdot \sum (x-\bar{x})^2,$$ 
+berechnen, so muss man in **R** etwas tun:
+```{r, eval=TRUE, echo=TRUE}
+factor <-(length(aVec)-1)/(length(aVec)) 
+# Wert
+var(aVec)
+# Korrigierter Wert
+factor*var(aVec)
+# Zur Probe:
+1/length(aVec) * sum( (aVec-mean(aVec))^2 )
+```
+## Standardabweichung
+
+```{r}
+factorSD <-sqrt((length(aVec)-1)/(length(aVec))) 
+# Wert von R:
+sd(aVec)
+# Korrigierter Wert
+factor*sd(aVec)
+# Zur Probe
+sqrt(1/length(aVec) * sum( (aVec-mean(aVec))^2 ))
+```
+
+## Rechnen mit Vektoren
+
+```{r}
+aVec2 <- rep(2, 4)
+aVec
+aVec2
+aVec %*% aVec2
+aVec * aVec2
+aVec3 <- aVec
+aVec3[3]
+aVec3[3] <- NA
+aVec3
+mean(aVec3)
+mean(aVec3, na.rm = TRUE)
+```
+
+## Literaturtip
+
+Wenn Sie sich mehr für **R** interssieren. Ein erster Anlaufpunkt wäre z.B. das Skript von Christian Heuman, Institut für Statistik, Ludwig-Maximilians-Universität München:
+
+http://www.statistik.lmu.de/~chris/rkurs/rkurs.html
+
+## Wir laden ein paar Daten
+
+- Via **RStudio**:
+    Gehen Sie auf das recht obere Fenster und klicken Sie **Import Dataset**, danach **From Web URL** und geben Sie 
+    als URL bitte *http://www.statistik.lmu.de/service/datenarchiv/miete/miete03.asc* ein.
+    Beachten 
+    
+- Via **R** direkt:
+  Man kann auch direkt aus **R** mittels ein paar Zeilen die Daten laden!
+  Laden wir ein paar Demodaten aus dem Netz:
+```{r, eval=TRUE, echo=TRUE}
+ miete03 <- read.table(
+    file = paste0("http://www.statistik.lmu.de/service/",
+                "datenarchiv/miete/miete03.asc"), 
+    header = TRUE)
+```
+
+
+## Die ersten Zeilen der Tabelle ansehen
+
+Mit dem Befehl **head()** schaut man sich die ersten Zeilen (im Bsp. die ersten 4 Zeilen) eines *Dataframes* an:
+```{r,  eval=TRUE, echo=TRUE}
+head(miete03, 4)
+```
+
+
+## Die letzten Zeilen der Tabelle ansehen
+
+Mit dem Befehl **tail()** schaut man sich die ersten Zeilen (im Bsp. die letzen 3 Zeilen) eines *Dataframes* an:
+```{r,  eval=TRUE, echo=TRUE}
+tail(miete03, 3)
+```
+
+## Häufigkeitstabelle und Balkendiagramme
+
+Mit dem Befehl **table** können wir eine *Häufigkeitstabelle* erstellen:
+```{r,  eval=TRUE, echo=TRUE}
+table(miete03$rooms)
+```
+## Häufigkeitstabelle und Balkendiagramme
+
+Und mit dem Befehl **barplot()** erstellen wir ein Balkendiagramm daraus:
+```{r,  eval=TRUE, echo=TRUE}
+barplot( table(miete03$rooms) )
+```
+
+## Schönere Diagramme mit **ggplot2**
+
+```{r,  eval=TRUE, echo=TRUE}
+library(ggplot2) # Bibliothek laden!
+ggplot(miete03, aes( x = rooms)) + geom_bar()
+```
+
+## Mehr Informationen zu **ggplot2**
+
+Wie man mit **ggplot2** noch mehr und noch schönere Grafiken erstellt, können Sie finden bei:
+
+- http://ggplot2.org
+- http://docs.ggplot2.org/current/index.html
+- http://www.cookbook-r.com/Graphs/
+- https://www.datacamp.com/courses/data-visualization-with-ggplot2-1
+- http://r4ds.had.co.nz
+
+## Mehr Informationen zu **R**
+
+Hier finden Sie Videos, die einige Schritte der Datenaufbereitung und deskriptiver/ explorativer Datenanalyse erläutern (zumeist mit R-Commander):
+
+- boxplots erstellen https://www.youtube.com/watch?v=9XBjOmA7sNs
+- Textdatei öffnen https://www.youtube.com/watch?v=QnM9HBe23Y8
+- Öffnen der Datei Polizeistudie https://www.youtube.com/watch?v=SDOoKuj5_7o
+- SPSS Datei importieren https://www.youtube.com/watch?v=HS8H_n7Vrm0
+- Deskriptive Statistik erstellen https://www.youtube.com/watch?v=qrMpgk-7Wus
+- Variablen in Faktoren umwandeln und Balkendiagramm https://www.youtube.com/watch?v=PRR-3kblt8k
+- Streudiagramm https://www.youtube.com/watch?v=brE72_0stO0
+- Korrelationsmatrix https://www.youtube.com/watch?v=pl92q_S-r8E
+- Datenmatrix erstellen https://youtu.be/-EaeBL9J4IE
+
+Die Videos wurden von Frau Prof. Ferreira erstellt. 
